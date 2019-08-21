@@ -1,0 +1,433 @@
+#VRML_SIM R2019a utf8
+WorldInfo {
+}
+Viewpoint {
+  orientation -0.005682984566704581 0.955203322925856 0.29589578496122176 3.1049054336971897
+  position 1.4501613407760299 6.731041274503138 -7.203579748209111
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+RectangleArena {
+  floorSize 10 10
+  wallHeight 0.5
+  wallColor 0.9882352941176471 0.6862745098039216 0.24313725490196078
+}
+DEF ACUATIC Robot {
+  translation 0.009999999999999997 0.2 0
+  rotation 0 0 1 0
+  children [
+    GPS {
+    }
+    InertialUnit {
+    }
+    DEF GR_BODY Group {
+      children [
+        Shape {
+          appearance DEF A_RED PBRAppearance {
+            baseColor 0.9372549019607843 0.1607843137254902 0.1607843137254902
+          }
+          geometry Box {
+            size 0.5 0.05 0.5
+          }
+        }
+        Transform {
+          translation 0 0 0.25
+          rotation 0 0 1 1.57
+          children [
+            Shape {
+              appearance USE A_RED
+              geometry DEF G_CYL Capsule {
+                height 0.5
+                radius 0.05
+              }
+            }
+          ]
+        }
+        Transform {
+          translation 0 0 -0.25
+          rotation 0 0 1 1.57
+          children [
+            Shape {
+              appearance USE A_RED
+              geometry USE G_CYL
+            }
+          ]
+        }
+        Transform {
+          translation 0 0 0.13
+          rotation 0 0 1 1.57
+          children [
+            Shape {
+              appearance USE A_RED
+              geometry USE G_CYL
+            }
+          ]
+        }
+        Transform {
+          translation 0 0 -0.13
+          rotation 0 0 1 1.57
+          children [
+            Shape {
+              appearance USE A_RED
+              geometry USE G_CYL
+            }
+          ]
+        }
+        Transform {
+          translation -0.03 0.05 0
+          children [
+            Shape {
+              appearance PBRAppearance {
+                baseColor 0.9882352941176471 0.6862745098039216 0.24313725490196078
+              }
+              geometry Box {
+                size 0.30000000000000004 0.05 0.1
+              }
+            }
+          ]
+        }
+        Transform {
+          translation 0 -0.05 0
+          rotation 0 0 1 1.57
+          children [
+            Shape {
+              appearance PBRAppearance {
+                transparency 0.5
+              }
+              geometry Cylinder {
+                height 0.5
+                radius 0.05
+              }
+            }
+          ]
+        }
+      ]
+    }
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        axis 0 1 0
+        anchor 0.2 0 0
+      }
+      device [
+        RotationalMotor {
+          name "motor_3"
+          maxVelocity 5
+          maxTorque 0.196
+        }
+      ]
+      endPoint Solid {
+        translation 0.2 0.05 0
+        children [
+          Shape {
+            appearance PBRAppearance {
+              baseColor 0.9882352941176471 0.6862745098039216 0.24313725490196078
+            }
+            geometry Box {
+              size 0.05 0.05 0.05
+            }
+          }
+        ]
+      }
+    }
+    DEF P_1 Propeller {
+      centerOfThrust -0.3 0 -0.25
+      device RotationalMotor {
+        name "motor_1"
+        maxVelocity 31.41
+        maxTorque 1.56
+      }
+      fastHelix Solid {
+        translation 0.01 0.2 0
+        children [
+          Transform {
+            translation -0.31 -0.2 -0.25
+            rotation 0 0 1 1.57
+            children [
+              Shape {
+                appearance DEF FAST_HELIX_APPEARANCE PBRAppearance {
+                  baseColorMap ImageTexture {
+                    url [
+                      "textures/blurred_helix.png"
+                    ]
+                  }
+                  transparency 0.5
+                  roughness 0.5
+                  metalness 0
+                }
+                geometry Cylinder {
+                  height 0.003
+                  radius 0.05
+                  side FALSE
+                  subdivision 24
+                }
+              }
+            ]
+          }
+        ]
+      }
+      slowHelix DEF SLOW_HELIX Solid {
+        translation 0.01 0.2 0
+        children [
+          Transform {
+            translation -0.31 -0.2 -0.25
+            rotation 1 0 0 1.5708
+            children [
+              DEF SLOW_MAIN_HELIX_GROUP Group {
+                children [
+                  Shape {
+                    appearance DEF BLACK_METAL PBRAppearance {
+                      baseColor 0 0 0
+                      roughness 1.1102230246251565e-16
+                      metalness 0
+                    }
+                    geometry Capsule {
+                      height 0.005
+                      radius 0.01
+                    }
+                  }
+                  Shape {
+                    appearance USE BLACK_METAL
+                    geometry Cylinder {
+                      height 0.05
+                      radius 0.004
+                    }
+                  }
+                  DEF RIGHT_BLADE Transform {
+                    translation 0 0.049999999999999996 0
+                    rotation 0 1 0 0.3618
+                    children [
+                      DEF BLADE_SHAPE Shape {
+                        appearance PBRAppearance {
+                          baseColor 0.8 0.8 0.8
+                          roughness 1
+                          metalness 0
+                        }
+                        geometry Box {
+                          size 0.01 0.05 0.004
+                        }
+                      }
+                    ]
+                  }
+                  DEF RIGHT_BLADE Transform {
+                    translation 0 -0.049999999999999996 0
+                    rotation 0 1 0 -0.3618
+                    children [
+                      USE BLADE_SHAPE
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+    DEF P_2 Propeller {
+      centerOfThrust -0.3 0 0.25
+      device RotationalMotor {
+        name "motor_2"
+        maxVelocity 31.41
+        maxTorque 1.56
+      }
+      fastHelix Solid {
+        translation 0.01 0.2 0
+        children [
+          Transform {
+            translation -0.31 -0.2 0.25
+            rotation 0 0 1 1.57
+            children [
+              Shape {
+                appearance DEF FAST_HELIX_APPEARANCE PBRAppearance {
+                  baseColorMap ImageTexture {
+                    url [
+                      "textures/blurred_helix.png"
+                    ]
+                  }
+                  transparency 0.5
+                  roughness 0.5
+                  metalness 0
+                }
+                geometry Cylinder {
+                  height 0.003
+                  radius 0.05
+                  side FALSE
+                  subdivision 24
+                }
+              }
+            ]
+          }
+        ]
+      }
+      slowHelix DEF SLOW_HELIX Solid {
+        translation 0.01 0.2 0
+        children [
+          Transform {
+            translation -0.31 -0.2 0.25
+            rotation 1 0 0 1.5708
+            children [
+              DEF SLOW_MAIN_HELIX_GROUP Group {
+                children [
+                  Shape {
+                    appearance DEF BLACK_METAL PBRAppearance {
+                      baseColor 0 0 0
+                      roughness 1.1102230246251565e-16
+                      metalness 0
+                    }
+                    geometry Capsule {
+                      height 0.005
+                      radius 0.01
+                    }
+                  }
+                  Shape {
+                    appearance USE BLACK_METAL
+                    geometry Cylinder {
+                      height 0.05
+                      radius 0.004
+                    }
+                  }
+                  DEF RIGHT_BLADE Transform {
+                    translation 0 0.049999999999999996 0
+                    rotation 0 1 0 0.3618
+                    children [
+                      DEF BLADE_SHAPE Shape {
+                        appearance PBRAppearance {
+                          baseColor 0.8 0.8 0.8
+                          roughness 1
+                          metalness 0
+                        }
+                        geometry Box {
+                          size 0.01 0.05 0.004
+                        }
+                      }
+                    ]
+                  }
+                  DEF RIGHT_BLADE Transform {
+                    translation 0 -0.049999999999999996 0
+                    rotation 0 1 0 -0.3618
+                    children [
+                      USE BLADE_SHAPE
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+    DEF D_1 DistanceSensor {
+      translation 0.3 0 0.25
+      rotation 0 1 0 -0.785
+      children [
+        Shape {
+          appearance PBRAppearance {
+          }
+          geometry Box {
+            size 0.01 0.01 0.01
+          }
+        }
+      ]
+      name "D_SENSOR_1"
+      lookupTable [
+        0 0 0
+        0.25 0 0
+        4.5 8950 0
+      ]
+      resolution 1
+    }
+    DEF D_2 DistanceSensor {
+      translation 0.3 0 0.13
+      children [
+        Shape {
+          appearance PBRAppearance {
+          }
+          geometry Box {
+            size 0.01 0.01 0.01
+          }
+        }
+      ]
+      name "D_SENSOR_2"
+      lookupTable [
+        0 0 0
+        0.25 0 0
+        4.5 8950 0
+      ]
+      resolution 1
+    }
+    DEF D_3 DistanceSensor {
+      translation 0.3 0 -0.13
+      children [
+        Shape {
+          appearance PBRAppearance {
+          }
+          geometry Box {
+            size 0.01 0.01 0.01
+          }
+        }
+      ]
+      name "D_SENSOR_3"
+      lookupTable [
+        0 0 0
+        0.25 0 0
+        4.5 8950 0
+      ]
+      resolution 1
+    }
+    DEF D_4 DistanceSensor {
+      translation 0.3 0 -0.25
+      rotation 0 1 0 0.785
+      children [
+        Shape {
+          appearance PBRAppearance {
+          }
+          geometry Box {
+            size 0.01 0.01 0.01
+          }
+        }
+      ]
+      name "D_SENSOR_4"
+      lookupTable [
+        0 0 0
+        0.25 0 0
+        4.5 8950 0
+      ]
+      resolution 1
+    }
+  ]
+  name "red"
+  immersionProperties [
+    ImmersionProperties {
+      fluidName "fluid"
+      referenceArea "xyz-projection"
+      dragForceCoefficients 0.1 0.1 0.1
+      dragTorqueCoefficients 0.1 0.1 0.1
+    }
+  ]
+  boundingObject USE GR_BODY
+  physics Physics {
+    density 250
+    damping Damping {
+    }
+  }
+  controller "acuatic_drone"
+  supervisor TRUE
+}
+Fluid {
+  translation 0 0.1 0
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.7254901960784313 0.8705882352941177 1
+        transparency 0.7
+        roughness 0.2
+        metalness 0
+      }
+      geometry DEF G_Water Box {
+        size 10 0.2 10
+      }
+    }
+  ]
+  boundingObject USE G_Water
+}
